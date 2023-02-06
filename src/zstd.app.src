@@ -1,11 +1,12 @@
 {application,
  zstd,
  [{description, "Zstd binding for Erlang/Elixir"},
-  {vsn, "0.3.0"},
+  {vsn, git},
   {registered, []},
   {applications, [kernel, stdlib]},
   {env, []},
   {modules, []},
-  {maintainers, ["Yuki Ito"]},
+  {maintainers, ["Yuki Ito", "NextRoll"]},
+  {pkg_name, nextroll_zstd},
   {licenses, ["BSD"]},
-  {links, [{"GitHub", "https://github.com/mururu/zstd-erlang"}]}]}.
+  {links, [{"GitHub", "https://github.com/AdRoll/zstd-erlang"}]}]}.

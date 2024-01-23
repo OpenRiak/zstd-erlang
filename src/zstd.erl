@@ -11,8 +11,6 @@
 
 -on_load init/0.
 
--define(APPNAME, zstd).
--define(LIBNAME, zstd_nif).
 % Thresholds at which it is preferable to use a dirty_nif
 -define(UNCOMPRESSED_SIZE_DIRTY, 250000).
 -define(COMPRESSED_SIZE_DIRTY, 50000).
@@ -100,18 +98,16 @@ stream_decompress(_Ref, _Binary) ->
     erlang:nif_error(?LINE).
 
 init() ->
-    SoName =
-        case code:priv_dir(?APPNAME) of
+    PrivDir =
+        case code:priv_dir(?MODULE) of
             {error, bad_name} ->
-                case filelib:is_dir(
-                         filename:join(["..", priv]))
-                of
-                    true ->
-                        filename:join(["..", priv, ?LIBNAME]);
-                    _ ->
-                        filename:join([priv, ?LIBNAME])
-                end;
-            Dir ->
-                filename:join(Dir, ?LIBNAME)
+                EbinDir =
+                    filename:dirname(
+                        code:which(?MODULE)),
+                AppPath = filename:dirname(EbinDir),
+                filename:join(AppPath, "priv");
+            Path ->
+                Path
         end,
-    erlang:load_nif(SoName, 0).
+    erlang:load_nif(
+        filename:join(PrivDir, "zstd_nif"), 0).

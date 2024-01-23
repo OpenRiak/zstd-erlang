@@ -13,7 +13,6 @@
 
 -define(APPNAME, zstd).
 -define(LIBNAME, zstd_nif).
-
 % Thresholds at which it is preferable to use a dirty_nif
 -define(UNCOMPRESSED_SIZE_DIRTY, 250000).
 -define(COMPRESSED_SIZE_DIRTY, 50000).
@@ -29,13 +28,13 @@ compress(Uncompressed, Level) when byte_size(Uncompressed) > ?UNCOMPRESSED_SIZE_
 compress(Uncompressed, Level) ->
     quick_compress(Uncompressed, Level).
 
--spec dirty_compress(
-    Uncompressed :: binary(), CompressionLevel :: 0..22) -> Compressed :: binary().
+-spec dirty_compress(Uncompressed :: binary(), CompressionLevel :: 0..22) ->
+                        Compressed :: binary().
 dirty_compress(_, _) ->
     erlang:nif_error(?LINE).
 
--spec quick_compress(
-    Uncompressed :: binary(), CompressionLevel :: 0..22) -> Compressed :: binary().
+-spec quick_compress(Uncompressed :: binary(), CompressionLevel :: 0..22) ->
+                        Compressed :: binary().
 quick_compress(_, _) ->
     erlang:nif_error(?LINE).
 
@@ -50,7 +49,7 @@ dirty_decompress(_) ->
     erlang:nif_error(?LINE).
 
 -spec quick_decompress(Compressed :: binary()) -> Uncompressed :: binary() | error.
-quick_decompress(_) -> 
+quick_decompress(_) ->
     erlang:nif_error(?LINE).
 
 -spec new_compression_stream() -> reference().

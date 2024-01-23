@@ -1,12 +1,12 @@
 {application,
  zstd,
- [{description, "Zstd binding for Erlang/Elixir"},
+ [{description,
+   "Zstd binding for Erlang for use in leveled only; fork of AdRoll/zstd-erlang"},
   {vsn, git},
   {registered, []},
   {applications, [kernel, stdlib]},
   {env, []},
   {modules, []},
-  {maintainers, ["Yuki Ito", "NextRoll"]},
-  {pkg_name, nextroll_zstd},
+  {pkg_name, leveled_zstd},
   {licenses, ["BSD"]},
-  {links, [{"GitHub", "https://github.com/AdRoll/zstd-erlang"}]}]}.
+  {links, [{"GitHub", "https://github.com/nhs-riak/zstd-erlang"}]}]}.

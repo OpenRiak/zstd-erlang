@@ -8,5 +8,5 @@
   {env, []},
   {modules, []},
   {pkg_name, leveled_zstd},
-  {licenses, ["BSD"]},
+  {licenses, ["BSD-3-Clause"]},
   {links, [{"GitHub", "https://github.com/nhs-riak/zstd-erlang"}]}]}.

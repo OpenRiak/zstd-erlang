@@ -1,7 +1,7 @@
 zstd-erlang
 =====
 
-[![Hex.pm](https://img.shields.io/hexpm/v/zstd.svg)](https://hex.pm/packages/zstd)
+![ZSTD OpenRiak Status](https://github.com/OpenRiak/zstd-erlang/actions/workflows/erlang.yml/badge.svg?branch=openriak-3.2)
 
 Zstd binding for Erlang/Elixir
 

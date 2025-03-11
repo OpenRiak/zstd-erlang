@@ -5,20 +5,20 @@
 zstd_test() ->
     Data = <<"Hello, World!">>,
     ?assertEqual(Data,
-                 zstd:decompress(
-                     zstd:compress(Data))).
+                 ezstd:decompress(
+                     ezstd:compress(Data))).
 
 zstd_stream_test() ->
     Bin = << <<"A">> || _ <- lists:seq(1, 1024 * 1024) >>,
-    CStream = zstd:new_compression_stream(),
-    ok = zstd:compression_stream_init(CStream),
-    {ok, CompressionBin} = zstd:stream_compress(CStream, Bin),
-    {ok, FlushBin} = zstd:stream_flush(CStream),
+    CStream = ezstd:new_compression_stream(),
+    ok = ezstd:compression_stream_init(CStream),
+    {ok, CompressionBin} = ezstd:stream_compress(CStream, Bin),
+    {ok, FlushBin} = ezstd:stream_flush(CStream),
 
-    DStream = zstd:new_decompression_stream(),
-    ok = zstd:decompression_stream_init(DStream),
-    {ok, DBin1} = zstd:stream_decompress(DStream, CompressionBin),
-    {ok, DBin2} = zstd:stream_decompress(DStream, FlushBin),
+    DStream = ezstd:new_decompression_stream(),
+    ok = ezstd:decompression_stream_init(DStream),
+    {ok, DBin1} = ezstd:stream_decompress(DStream, CompressionBin),
+    {ok, DBin2} = ezstd:stream_decompress(DStream, FlushBin),
     ?assertEqual(Bin, <<DBin1/binary, DBin2/binary>>).
 
 generate_randomkeys(Count, BucketRangeLow, BucketRangeHigh) ->
@@ -61,12 +61,12 @@ compression_perf_tester(N) ->
                     term_to_binary(
                         {base64:encode(crypto:strong_rand_bytes(N * 8)),
                             (generate_randomkeys(N, 1, 4))}),
-                {CTD0, CD0} = timer:tc(fun() -> zstd:dirty_compress(RB0, 1) end),
-                {DTD0, DD0} = timer:tc(fun() -> zstd:dirty_decompress(CD0) end),
-                {CTQ0, CQ0} = timer:tc(fun() -> zstd:quick_compress(RB0, 1) end),
-                {DTQ0, DQ0} = timer:tc(fun() -> zstd:quick_decompress(CQ0) end),
-                {CT0, C0} = timer:tc(fun() -> zstd:compress(RB0) end),
-                {DT0, D0} = timer:tc(fun() -> zstd:decompress(C0) end),
+                {CTD0, CD0} = timer:tc(fun() -> ezstd:dirty_compress(RB0, 1) end),
+                {DTD0, DD0} = timer:tc(fun() -> ezstd:dirty_decompress(CD0) end),
+                {CTQ0, CQ0} = timer:tc(fun() -> ezstd:quick_compress(RB0, 1) end),
+                {DTQ0, DQ0} = timer:tc(fun() -> ezstd:quick_decompress(CQ0) end),
+                {CT0, C0} = timer:tc(fun() -> ezstd:compress(RB0) end),
+                {DT0, D0} = timer:tc(fun() -> ezstd:decompress(C0) end),
 
                 ?assertMatch(RB0, DD0),
                 ?assertMatch(DD0, DQ0),

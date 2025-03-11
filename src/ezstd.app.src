@@ -1,0 +1,10 @@
+{application,
+ ezstd,
+ [{description, "Zstd binding for Erlang/Elixir"},
+  {vsn, git},
+  {registered, []},
+  {applications, [kernel, stdlib]},
+  {env, []},
+  {modules, []}
+ ]
+}.

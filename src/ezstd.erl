@@ -1,4 +1,4 @@
--module(zstd).
+-module(ezstd).
 
 -export([compress/1, compress/2]).
 -export([decompress/1]).

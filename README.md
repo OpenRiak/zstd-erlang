@@ -1,7 +1,7 @@
 zstd-erlang
 =====
 
-![ZSTD OpenRiak Status](https://github.com/OpenRiak/zstd-erlang/actions/workflows/erlang.yml/badge.svg?branch=openriak-3.2)
+![ZSTD OpenRiak Status](https://github.com/OpenRiak/zstd-erlang/actions/workflows/erlang.yml/badge.svg?branch=openriak-3.4)
 
 Zstd binding for Erlang/Elixir
 

@@ -11,7 +11,7 @@
 
 -on_load init/0.
 
--define(APPNAME, zstd).
+-define(APPNAME, ezstd).
 -define(LIBNAME, zstd_nif).
 
 % Thresholds at which it is preferable to use a dirty_nif

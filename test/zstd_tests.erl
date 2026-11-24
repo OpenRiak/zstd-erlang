@@ -2,23 +2,25 @@
 
 -include_lib("eunit/include/eunit.hrl").
 
+-define(NOT_OTP_ZSTD, zstd_external).
+
 zstd_test() ->
     Data = <<"Hello, World!">>,
     ?assertEqual(Data,
-                 zstd:decompress(
-                     zstd:compress(Data))).
+                 ?NOT_OTP_ZSTD:decompress(
+                     ?NOT_OTP_ZSTD:compress(Data))).
 
 zstd_stream_test() ->
     Bin = << <<"A">> || _ <- lists:seq(1, 1024 * 1024) >>,
-    CStream = zstd:new_compression_stream(),
-    ok = zstd:compression_stream_init(CStream),
-    {ok, CompressionBin} = zstd:stream_compress(CStream, Bin),
-    {ok, FlushBin} = zstd:stream_flush(CStream),
+    CStream = ?NOT_OTP_ZSTD:new_compression_stream(),
+    ok = ?NOT_OTP_ZSTD:compression_stream_init(CStream),
+    {ok, CompressionBin} = ?NOT_OTP_ZSTD:stream_compress(CStream, Bin),
+    {ok, FlushBin} = ?NOT_OTP_ZSTD:stream_flush(CStream),
 
-    DStream = zstd:new_decompression_stream(),
-    ok = zstd:decompression_stream_init(DStream),
-    {ok, DBin1} = zstd:stream_decompress(DStream, CompressionBin),
-    {ok, DBin2} = zstd:stream_decompress(DStream, FlushBin),
+    DStream = ?NOT_OTP_ZSTD:new_decompression_stream(),
+    ok = ?NOT_OTP_ZSTD:decompression_stream_init(DStream),
+    {ok, DBin1} = ?NOT_OTP_ZSTD:stream_decompress(DStream, CompressionBin),
+    {ok, DBin2} = ?NOT_OTP_ZSTD:stream_decompress(DStream, FlushBin),
     ?assertEqual(Bin, <<DBin1/binary, DBin2/binary>>).
 
 generate_randomkeys(Count, BucketRangeLow, BucketRangeHigh) ->
@@ -51,7 +53,7 @@ compression_perf_testsizes() ->
     compression_perf_tester(2048),
     compression_perf_tester(4096),
     compression_perf_tester(8192).
-    
+
 compression_perf_tester(N) ->
     Loops = 100,
     {TotalCS, TotalDS, TotalDC, TotalDD, TotalQC, TotalQD, TotalAC, TotalAD} =
@@ -61,12 +63,12 @@ compression_perf_tester(N) ->
                     term_to_binary(
                         {base64:encode(crypto:strong_rand_bytes(N * 8)),
                             (generate_randomkeys(N, 1, 4))}),
-                {CTD0, CD0} = timer:tc(fun() -> zstd:dirty_compress(RB0, 1) end),
-                {DTD0, DD0} = timer:tc(fun() -> zstd:dirty_decompress(CD0) end),
-                {CTQ0, CQ0} = timer:tc(fun() -> zstd:quick_compress(RB0, 1) end),
-                {DTQ0, DQ0} = timer:tc(fun() -> zstd:quick_decompress(CQ0) end),
-                {CT0, C0} = timer:tc(fun() -> zstd:compress(RB0) end),
-                {DT0, D0} = timer:tc(fun() -> zstd:decompress(C0) end),
+                {CTD0, CD0} = timer:tc(fun() -> ?NOT_OTP_ZSTD:dirty_compress(RB0, 1) end),
+                {DTD0, DD0} = timer:tc(fun() -> ?NOT_OTP_ZSTD:dirty_decompress(CD0) end),
+                {CTQ0, CQ0} = timer:tc(fun() -> ?NOT_OTP_ZSTD:quick_compress(RB0, 1) end),
+                {DTQ0, DQ0} = timer:tc(fun() -> ?NOT_OTP_ZSTD:quick_decompress(CQ0) end),
+                {CT0, C0} = timer:tc(fun() -> ?NOT_OTP_ZSTD:compress(RB0) end),
+                {DT0, D0} = timer:tc(fun() -> ?NOT_OTP_ZSTD:decompress(C0) end),
 
                 ?assertMatch(RB0, DD0),
                 ?assertMatch(DD0, DQ0),

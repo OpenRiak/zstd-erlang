@@ -1,4 +1,4 @@
--module(zstd).
+-module(zstd_external).
 
 -export([compress/1, compress/2]).
 -export([decompress/1]).
@@ -11,8 +11,8 @@
 
 -on_load init/0.
 
--define(APPNAME, zstd).
--define(LIBNAME, zstd_nif).
+-define(APPNAME, zstd_external).
+-define(LIBNAME, zstd_external).
 
 % Thresholds at which it is preferable to use a dirty_nif
 -define(UNCOMPRESSED_SIZE_DIRTY, 250000).
@@ -50,7 +50,7 @@ dirty_decompress(_) ->
     erlang:nif_error(?LINE).
 
 -spec quick_decompress(Compressed :: binary()) -> Uncompressed :: binary() | error.
-quick_decompress(_) -> 
+quick_decompress(_) ->
     erlang:nif_error(?LINE).
 
 -spec new_compression_stream() -> reference().
@@ -101,18 +101,5 @@ stream_decompress(_Ref, _Binary) ->
     erlang:nif_error(?LINE).
 
 init() ->
-    SoName =
-        case code:priv_dir(?APPNAME) of
-            {error, bad_name} ->
-                case filelib:is_dir(
-                         filename:join(["..", priv]))
-                of
-                    true ->
-                        filename:join(["..", priv, ?LIBNAME]);
-                    _ ->
-                        filename:join([priv, ?LIBNAME])
-                end;
-            Dir ->
-                filename:join(Dir, ?LIBNAME)
-        end,
-    erlang:load_nif(SoName, 0).
+    SoName = filename:join(code:priv_dir(?MODULE), "zstd_external"),
+    erlang:load_nif(SoName, application:get_all_env(?APPNAME)).

@@ -15,4 +15,4 @@ erl_crash.dump
 logs
 _build
 rebar3.crashdump
-priv/zstd_nif.so
+priv/zstd_external.so

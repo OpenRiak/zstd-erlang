@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <zstd.h>
 
-static const char* MODULE_NAME = "zstd";
+static const char* MODULE_NAME = "zstd_external";
 static const char* COMPRESSION_STREAM_NAME = "CStream";
 static const char* DECOMPRESSION_STREAM_NAME = "DStream";
 static char* COMPRESS_CONTEXT_KEY = "zstd_compress_context_key";
@@ -426,4 +426,4 @@ static ErlNifFunc nif_funcs[] = {
   { "stream_decompress"           , 2, zstd_nif_decompress_stream          , ERL_DIRTY_JOB_CPU_BOUND }
 };
 
-ERL_NIF_INIT(zstd, nif_funcs, zstd_on_load, zstd_on_reload, zstd_on_upgrade, NULL);
+ERL_NIF_INIT(zstd_external, nif_funcs, zstd_on_load, zstd_on_reload, zstd_on_upgrade, NULL);
